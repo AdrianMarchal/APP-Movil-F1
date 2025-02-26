@@ -66,22 +66,19 @@ class _CircuitoDetailsScreen extends StatelessWidget {
                         border: Border.all(color: Colors.black, width: 2),
                         borderRadius: BorderRadius.circular(3),
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(3),
-                        child: FadeInImage(
-                          fit: BoxFit.cover,
-                          placeholder:
-                              const AssetImage('assets/images/loading.gif'),
-                          image: (circuito.bandera.isNotEmpty)
-                              ? NetworkImage(circuito.bandera) as ImageProvider
-                              : const AssetImage('assets/images/no-image.jpg'),
-                          imageErrorBuilder: (context, error, stackTrace) {
-                            return Image.asset(
-                              'assets/images/no-image.jpg',
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        ),
+                      child: FadeInImage(
+                        fit: BoxFit.cover,
+                        placeholder:
+                            const AssetImage('assets/images/loading.gif'),
+                        image: (circuito.bandera.isNotEmpty)
+                            ? NetworkImage(circuito.bandera) as ImageProvider
+                            : const AssetImage('assets/images/no-image.jpg'),
+                        imageErrorBuilder: (context, error, stackTrace) {
+                          return Image.asset(
+                            'assets/images/no-image.jpg',
+                            fit: BoxFit.cover,
+                          );
+                        },
                       ),
                     ),
                   ),

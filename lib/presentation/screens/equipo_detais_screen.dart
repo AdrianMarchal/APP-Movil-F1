@@ -1,4 +1,3 @@
-
 import 'package:f1_app_final/models/equipo_model.dart';
 import 'package:f1_app_final/models/piloto_model.dart';
 import 'package:flutter/material.dart';
@@ -69,10 +68,10 @@ class EquipoDetaisScreen extends StatelessWidget {
                           ),
                           Spacer(),
                           Image.network(
-                          teamLogo,
-                          width: 65,
-                          height: 65,
-                        ),
+                            teamLogo,
+                            width: 65,
+                            height: 65,
+                          ),
                         ],
                       ),
                     ),
@@ -93,7 +92,9 @@ class EquipoDetaisScreen extends StatelessWidget {
                     image: (equipo.img == null || equipo.img.isEmpty)
                         ? const AssetImage('assets/images/no-image.jpg')
                             as ImageProvider
-                        : NetworkImage(equipo.img,) ,
+                        : NetworkImage(
+                            equipo.img,
+                          ),
                     imageErrorBuilder: (context, error, stackTrace) {
                       return Image.asset('assets/images/no-image.jpg',
                           fit: BoxFit.cover);
@@ -122,15 +123,14 @@ class EquipoDetaisScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
-                    padding: EdgeInsets.only(left: 8, right: 8),
-                    child: Text(
-                                "Informacion",
-                                style: TextStyle(
-                                    color: Colors.black87, fontSize: 18),
-                              ),
-                  ),
+                      padding: EdgeInsets.only(left: 8, right: 8),
+                      child: Text(
+                        "Informacion",
+                        style: TextStyle(color: Colors.black87, fontSize: 18),
+                      ),
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 8,top: 2),
+                      padding: const EdgeInsets.only(left: 8, top: 2),
                       child: Row(
                         children: [
                           const Text(
@@ -179,22 +179,29 @@ class EquipoDetaisScreen extends StatelessWidget {
                                 height: 25,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(3),
-                                  child: FadeInImage(
-                                    fit: BoxFit.cover,
-                                    placeholder: const AssetImage(
-                                        'assets/images/loading.gif'),
-                                    image: (equipo.bandera.isEmpty)
-                                        ? const AssetImage(
-                                                'assets/images/no-image.jpg')
-                                            as ImageProvider
-                                        : NetworkImage(equipo.bandera),
-                                    imageErrorBuilder:
-                                        (context, error, stackTrace) {
-                                      return Image.asset(
-                                        'assets/images/no-image.jpg',
-                                        fit: BoxFit.cover,
-                                      );
-                                    },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.black, width: 2),
+                                      borderRadius: BorderRadius.circular(3),
+                                    ),
+                                    child: FadeInImage(
+                                      fit: BoxFit.cover,
+                                      placeholder: const AssetImage(
+                                          'assets/images/loading.gif'),
+                                      image: (equipo.bandera.isEmpty)
+                                          ? const AssetImage(
+                                                  'assets/images/no-image.jpg')
+                                              as ImageProvider
+                                          : NetworkImage(equipo.bandera),
+                                      imageErrorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Image.asset(
+                                          'assets/images/no-image.jpg',
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
@@ -227,13 +234,12 @@ class EquipoDetaisScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Padding(
-                    padding: EdgeInsets.only(left: 8, right: 8),
-                    child: Text(
-                                "Coche",
-                                style: TextStyle(
-                                    color: Colors.black87, fontSize: 18),
-                              ),
-                  ),
+                      padding: EdgeInsets.only(left: 8, right: 8),
+                      child: Text(
+                        "Coche",
+                        style: TextStyle(color: Colors.black87, fontSize: 18),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(left: 8, top: 2),
                       child: Row(
@@ -280,7 +286,6 @@ class EquipoDetaisScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          
                         ],
                       ),
                     ),
@@ -364,8 +369,7 @@ class CardDatosEquipo extends StatelessWidget {
                     campeonatos: equipo.campeonatosConstructores)),
             const Center(
               child: Text("Pilotos: ",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 20)),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

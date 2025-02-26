@@ -1,4 +1,3 @@
-
 import 'package:f1_app_final/models/piloto_model.dart';
 import 'package:flutter/material.dart';
 import 'package:show_up_animation/show_up_animation.dart';
@@ -68,7 +67,8 @@ class PilotoDatailScreen extends StatelessWidget {
                             Expanded(
                               child: Text(piloto.nombre,
                                   style: const TextStyle(
-                                      fontSize: 30, fontWeight: FontWeight.bold),
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis),
                             ),
@@ -91,22 +91,30 @@ class PilotoDatailScreen extends StatelessWidget {
                                       height: 40,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(3),
-                                        child: FadeInImage(
-                                          fit: BoxFit.cover,
-                                          placeholder: const AssetImage(
-                                              'assets/images/loading.gif'),
-                                          image: (piloto.bandera.isEmpty)
-                                              ? const AssetImage(
-                                                      'assets/images/no-image.jpg')
-                                                  as ImageProvider
-                                              : NetworkImage(piloto.bandera),
-                                          imageErrorBuilder:
-                                              (context, error, stackTrace) {
-                                            return Image.asset(
-                                              'assets/images/no-image.jpg',
-                                              fit: BoxFit.cover,
-                                            );
-                                          },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.black, width: 2),
+                                            borderRadius:
+                                                BorderRadius.circular(3),
+                                          ),
+                                          child: FadeInImage(
+                                            fit: BoxFit.cover,
+                                            placeholder: const AssetImage(
+                                                'assets/images/loading.gif'),
+                                            image: (piloto.bandera.isEmpty)
+                                                ? const AssetImage(
+                                                        'assets/images/no-image.jpg')
+                                                    as ImageProvider
+                                                : NetworkImage(piloto.bandera),
+                                            imageErrorBuilder:
+                                                (context, error, stackTrace) {
+                                              return Image.asset(
+                                                'assets/images/no-image.jpg',
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -116,7 +124,7 @@ class PilotoDatailScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                         Row(
+                        Row(
                           children: [
                             Row(
                               children: [
@@ -208,21 +216,22 @@ class PilotoDatailScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Padding(
-                        padding: const EdgeInsets.only(right: 8,left: 8),
+                        padding: const EdgeInsets.only(right: 8, left: 8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                                "Equipo",
-                                style: TextStyle(
-                                    color: Colors.black87, fontSize: 18),
-                              ),
+                              "Equipo",
+                              style: TextStyle(
+                                  color: Colors.black87, fontSize: 18),
+                            ),
                             Row(
                               children: [
                                 Text(
                                   piloto.equipoActual,
                                   style: const TextStyle(
-                                      fontSize: 20, fontWeight: FontWeight.bold),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 const Spacer(),
                                 Image.network(
@@ -242,8 +251,6 @@ class PilotoDatailScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-
-              
               CardDatosPiloto(
                   piloto: piloto, teamColor: teamColor, teamLogo: teamLogo)
             ],
@@ -294,10 +301,9 @@ class CardDatosPiloto extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.only(left: 8, right: 8),
                     child: Text(
-                                "Estadisticas",
-                                style: TextStyle(
-                                    color: Colors.black87, fontSize: 18),
-                              ),
+                      "Estadisticas",
+                      style: TextStyle(color: Colors.black87, fontSize: 18),
+                    ),
                   ),
                   ShowUpAnimation(
                     delayStart: const Duration(seconds: 0),

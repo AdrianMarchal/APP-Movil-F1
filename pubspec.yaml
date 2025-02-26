@@ -40,6 +40,8 @@ dependencies:
   provider: ^6.1.2
   shared_preferences: ^2.5.2
   show_up_animation: ^2.0.0
+  flutter_launcher_icons: ^0.13.1 #Libreria icono 
+  flutter_native_splash: ^2.3.9 #Libreria splash
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -97,3 +99,16 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo_bueno.png"
+  adaptive_icon_background: "#1E1E1E"  # Solo para Android
+  adaptive_icon_foreground: "assets/images/logo_bueno.png"  # Solo para Android
+
+flutter_native_splash:
+  color: "#1E1E1E"  # Color de fondo en hexadecimal (equivalente a Color.fromARGB(255, 30, 30, 30))
+  image: assets/images/logo_bueno.png  # Ruta de tu logo
+  android_12:
+    image: assets/images/logo_bueno.png
+    icon_background_color: "#1E1E1E"  # Fondo del icono en Android 12+

@@ -173,7 +173,7 @@ class _CircuitoDetailsScreen extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              circuito.km.toString(),
+                              (circuito.km / 1000).toString(),
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 40),
                             ),

@@ -84,34 +84,42 @@ class _PerfilScreenState extends State<_PerfilScreen> {
     return null;
   }
 
-    
-
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     void updateUser() async {
-     bool? creado = await userProvider.update(_nameController.text, _emailController.text);
-      
+        setState(() {
+          isEditing = false;
+        });
+      bool? creado = await userProvider.update(_nameController.text, _emailController.text);
+
       if (creado == true) {
         await userProvider.login(_emailController.text, widget.preferencias.getPassUsuario);
         widget.preferencias.setEmail(_emailController.text);
-         ScaffoldMessenger.of(context).showSnackBar(
+
+        ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Usuario Actualizado', style: TextStyle(color: Colors.white),),
+            content: const Text('Usuario Actualizado', style: TextStyle(color: Colors.white)),
             backgroundColor: Color.fromARGB(255, 0, 0, 0),
             action: SnackBarAction(label: 'OK', textColor: Colors.white, onPressed: () {}),
           ),
-         );
+        );
+
+       
       } else {
+         setState(() {
+          isEditing = true;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('Error al actualizar'),
-            backgroundColor: Color.fromARGB(255,255,1,0),
+            backgroundColor: Color.fromARGB(255, 255, 1, 0),
             action: SnackBarAction(label: 'OK', textColor: Colors.white, onPressed: () {}),
           ),
         );
       }
-  }
+    }
+
     return Column(
       children: [
         Padding(
@@ -122,12 +130,10 @@ class _PerfilScreenState extends State<_PerfilScreen> {
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                 border: Border(
-                  top: BorderSide(
-                      color: Color.fromARGB(255, 255, 1, 0), width: 7),
+                  top: BorderSide(color: Color.fromARGB(255, 255, 1, 0), width: 7),
                   right: BorderSide(color: Colors.transparent, width: 0),
                   bottom: BorderSide(color: Colors.transparent, width: 0),
-                  left: BorderSide(
-                      color: Color.fromARGB(255, 255, 1, 0), width: 7),
+                  left: BorderSide(color: Color.fromARGB(255, 255, 1, 0), width: 7),
                 ),
               ),
               child: const Padding(
@@ -153,10 +159,8 @@ class _PerfilScreenState extends State<_PerfilScreen> {
               decoration: const BoxDecoration(
                 border: Border(
                   top: BorderSide(color: Colors.transparent, width: 0),
-                  right: BorderSide(
-                      color: Color.fromARGB(255, 255, 1, 0), width: 7),
-                  bottom: BorderSide(
-                      color: Color.fromARGB(255, 255, 1, 0), width: 7),
+                  right: BorderSide(color: Color.fromARGB(255, 255, 1, 0), width: 7),
+                  bottom: BorderSide(color: Color.fromARGB(255, 255, 1, 0), width: 7),
                   left: BorderSide(color: Colors.transparent, width: 0),
                 ),
               ),
@@ -168,8 +172,7 @@ class _PerfilScreenState extends State<_PerfilScreen> {
                         children: [
                           const Text(
                             "Nombre: ",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width * 0.4,
@@ -189,8 +192,7 @@ class _PerfilScreenState extends State<_PerfilScreen> {
                         children: [
                           const Text(
                             "Correo electronico: ",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width * 0.4,
@@ -210,7 +212,7 @@ class _PerfilScreenState extends State<_PerfilScreen> {
             ),
           ),
         ),
-        SizedBox(height: 30,),
+        SizedBox(height: 30),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ClipRRect(
@@ -219,12 +221,10 @@ class _PerfilScreenState extends State<_PerfilScreen> {
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                 border: Border(
-                  top: BorderSide(
-                      color: Color.fromARGB(255, 255, 1, 0), width: 7),
+                  top: BorderSide(color: Color.fromARGB(255, 255, 1, 0), width: 7),
                   right: BorderSide(color: Colors.transparent, width: 0),
                   bottom: BorderSide(color: Colors.transparent, width: 0),
-                  left: BorderSide(
-                      color: Color.fromARGB(255, 255, 1, 0), width: 7),
+                  left: BorderSide(color: Color.fromARGB(255, 255, 1, 0), width: 7),
                 ),
               ),
               child: Padding(
@@ -255,7 +255,6 @@ class _PerfilScreenState extends State<_PerfilScreen> {
             ),
           ),
         ),
-        
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ClipRRect(
@@ -265,10 +264,8 @@ class _PerfilScreenState extends State<_PerfilScreen> {
               decoration: const BoxDecoration(
                 border: Border(
                   top: BorderSide(color: Colors.transparent, width: 0),
-                  right: BorderSide(
-                      color: Color.fromARGB(255, 255, 1, 0), width: 7),
-                  bottom: BorderSide(
-                      color: Color.fromARGB(255, 255, 1, 0), width: 7),
+                  right: BorderSide(color: Color.fromARGB(255, 255, 1, 0), width: 7),
+                  bottom: BorderSide(color: Color.fromARGB(255, 255, 1, 0), width: 7),
                   left: BorderSide(color: Colors.transparent, width: 0),
                 ),
               ),
@@ -276,10 +273,9 @@ class _PerfilScreenState extends State<_PerfilScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    // Campos editables siempre visibles pero deshabilitados hasta que el switch se active
                     TextField(
                       controller: _nameController,
-                      enabled: isEditing, // Deshabilitado hasta que el switch esté activado
+                      enabled: isEditing,
                       decoration: const InputDecoration(
                         labelText: 'Nombre',
                         border: OutlineInputBorder(),
@@ -288,11 +284,11 @@ class _PerfilScreenState extends State<_PerfilScreen> {
                     SizedBox(height: 20),
                     TextField(
                       controller: _emailController,
-                      enabled: isEditing, // Deshabilitado hasta que el switch esté activado
+                      enabled: isEditing,
                       decoration: InputDecoration(
                         labelText: 'Correo Electrónico',
                         border: OutlineInputBorder(),
-                        errorText: emailError, // Mostrar error si es inválido
+                        errorText: emailError,
                       ),
                       keyboardType: TextInputType.emailAddress,
                       onChanged: (value) {
@@ -307,7 +303,7 @@ class _PerfilScreenState extends State<_PerfilScreen> {
                           ? () {
                               updateUser();
                             }
-                          : null, // Deshabilitado hasta que el switch esté activado y el correo sea válido
+                          : null,
                       child: const Text('Guardar Cambios', style: TextStyle(color: Colors.black)),
                     ),
                   ],
@@ -317,17 +313,15 @@ class _PerfilScreenState extends State<_PerfilScreen> {
           ),
         ),
         Container(
-            height: 250,
-            width: 250,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/logo_bueno.png"),
-              ),
+          height: 250,
+          width: 250,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/logo_bueno.png"),
             ),
           ),
+        ),
       ],
     );
   }
-  
-
 }

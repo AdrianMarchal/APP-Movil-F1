@@ -1,4 +1,3 @@
-
 import 'package:f1_app_final/models/user_model.dart';
 import 'package:f1_app_final/presentation/widgets/custom_text_form_field.dart';
 import 'package:f1_app_final/providers/user_provider.dart';
@@ -7,38 +6,93 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      
-      backgroundColor: Color.fromARGB(255, 30, 30, 30),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 100),
-            Container(
-              height: 350,
-              width: 350,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/logo_bueno.png"),
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 100),
+                Container(
+                  height: 350,
+                  width: 350,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/logo_bueno.png"),
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(height: 40),
+                _RegisterForm(onRegister: _registerUser),
+              ],
             ),
-            const SizedBox(height: 40),
-            _RegisterForm(),
-          ],
-        ),
+          ),
+          if (_isLoading)
+            Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.black.withOpacity(0.5),
+                child: const Center(
+                    child: Image(
+                  image: AssetImage('assets/images/loading.gif'),
+                  height: 200,
+                ))),
+        ],
       ),
     );
+  }
+
+  void _registerUser(String name, String email, String password) async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    UserProvider userProvider = Provider.of(context, listen: false);
+    final preferencias = PreferenciasUsuario();
+    User? user = await userProvider.register(name, email, password);
+
+    if (user != null) {
+      await userProvider.login(email, password);
+      setState(() {
+        _isLoading = false;
+      });
+      preferencias.setPass(password);
+      preferencias.setEmail(email);
+      context.pushReplacement("/exito");
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Error al registrar usuario'),
+          backgroundColor: const Color.fromARGB(255, 255, 1, 0),
+          action: SnackBarAction(
+              label: 'OK', textColor: Colors.white, onPressed: () {}),
+        ),
+      );
+    }
   }
 }
 
 class _RegisterForm extends StatefulWidget {
+  final Function(String, String, String) onRegister;
+
+  const _RegisterForm({required this.onRegister});
+
   @override
   State<_RegisterForm> createState() => _RegisterFormState();
 }
@@ -49,7 +103,7 @@ class _RegisterFormState extends State<_RegisterForm> {
   String email = '';
   String password = '';
   bool isFormValid = false;
-  bool _isPasswordVisible = false; 
+  bool _isPasswordVisible = false;
 
   void _validateForm() {
     setState(() {
@@ -59,33 +113,12 @@ class _RegisterFormState extends State<_RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = Provider.of(context);
-    final preferencias = PreferenciasUsuario();
-    void registerUser() async {
-      User? user = await userProvider.register(name, email, password);
-      
-      if (user != null) {
-        await userProvider.login(email, password);
-        preferencias.setPass(password);
-        preferencias.setEmail(email);
-        context.pushReplacement("/exito");
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Error al registrar usuario'),
-            backgroundColor: Color.fromARGB(255,255,1,0),
-            action: SnackBarAction(label: 'OK', textColor: Colors.white, onPressed: () {}),
-          ),
-        );
-      }
-    }
-
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width - 30,
         child: Form(
           key: _formKey,
-          onChanged: _validateForm, 
+          onChanged: _validateForm,
           child: Column(
             children: [
               CustomTextFormField(
@@ -142,7 +175,9 @@ class _RegisterFormState extends State<_RegisterForm> {
                 },
                 suffixIcon: IconButton(
                   icon: Icon(
-                    _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    _isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                     color: Colors.white,
                   ),
                   onPressed: () {
@@ -154,19 +189,25 @@ class _RegisterFormState extends State<_RegisterForm> {
               ),
               const SizedBox(height: 30),
               ElevatedButton(
-                style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Color.fromARGB(255,255,1,0),)),
-                child: const Text('Registrarse' ,style: TextStyle(color: Colors.white)),
+                style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(
+                        const Color.fromARGB(255, 255, 1, 0))),
+                child: const Text('Registrarse',
+                    style: TextStyle(color: Colors.white)),
                 onPressed: isFormValid
                     ? () {
-                        registerUser();
+                        widget.onRegister(name, email, password);
                       }
-                    : null, 
+                    : null,
               ),
               TextButton(
                 onPressed: () {
                   context.push("/login");
                 },
-                child: const Text("¿Ya tienes cuenta? Inicia sesión" , style: TextStyle(color: Colors.white))
+                child: const Text(
+                  "¿Ya tienes cuenta? Inicia sesión",
+                  style: TextStyle(color: Colors.white),
+                ),
               )
             ],
           ),
